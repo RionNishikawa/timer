@@ -10,20 +10,13 @@ interface Props {
 export const Timer = (props: Props) => {
     const [name, setName] = useState(props.name)
     const [time, setTime] = useState(localStorage.getItem(name) ?? "00/00:00")
-    const [display, setDisplay] = useState<"block" | "none">("block")
+    const [display, setDisplay] = useState<"flex" | "none">("flex")
 
     const handleChange = (value: string) => {
         const timerList = getTimerNames()
-        if (timerList.includes(value)) {
-            console.log("同名は禁止")
-            return;
-        }
-        const newList = timerList.map((t) => t === name ? value : t)
-        if (!name) {
-            newList.push(value)
-        }
-        localStorage.setItem("TIMER_LIST", JSON.stringify(newList));
-
+        const idx = timerList.indexOf(name)
+        timerList[idx] = value
+        localStorage.setItem("TIMER_LIST", JSON.stringify(timerList));
         localStorage.removeItem(name);
         setName(value)
         localStorage.setItem(value, time);
@@ -54,11 +47,11 @@ export const Timer = (props: Props) => {
 
 
     return (
-        <Box sx={{ display: display }}>
+        <Box sx={{ display: display, my: 2 }}>
             <TextField value={name} onChange={(e) => handleChange(e.target.value)} />
-            <Typography sx={{ ml: 2, mr: 2 }}>{time}</Typography>
-            <Button variant="contained" sx={{ m: 2 }} disabled={name === ""} onClick={() => { handleRegister() }}>登録</Button>
-            <Button variant="contained" sx={{ m: 2 }} onClick={() => { handleRemove() }}>削除</Button>
+            <Typography sx={{ m: 2 }}>{time}</Typography>
+            <Button variant="contained" sx={{ m: 1 }} disabled={name === ""} onClick={() => { handleRegister() }}>登録</Button>
+            <Button variant="contained" sx={{ m: 1 }} onClick={() => { handleRemove() }}>削除</Button>
         </Box>
     )
 }
