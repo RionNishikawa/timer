@@ -1,4 +1,4 @@
-import { Container, AppBar, Typography, Box, Button } from "@mui/material";
+import { Container, AppBar, Typography, Box, Button, Stack } from "@mui/material";
 import { useState } from "react";
 
 import { Timer } from './Timer';
@@ -23,13 +23,13 @@ function App() {
   return (
     <Box>
       <AppBar position="static">
-        <Typography variant='h5' sx={{ m: 2 }}>Timer App</Typography>
+        <Stack direction={"row"} justifyContent="space-between">
+          <Typography variant='h5' sx={{ m: 2 }}>Timer App</Typography>
+          <Button sx={{ m: 1 }} variant="contained" color="info" size="small" onClick={addTimer}>追加</Button>
+        </Stack>
       </AppBar>
       <Container>
         {timers()}
-        <Box position="fixed" right={100} bottom={100}>
-          <Button variant="contained" size="large" onClick={addTimer}>追加</Button>
-        </Box>
       </Container>
     </Box>
   );
